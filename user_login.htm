@@ -1,0 +1,75 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+<div class="container">
+    <div class="page-canvas">
+        <div class="signin">
+            <h1>用户登录</h1>
+            <form method="POST" id="login_form" action="user-login.htm">
+                <fieldset>
+                    <div class="field">
+                        <input class="form-control" type="text" name="account" placeholder="邮件地址或昵称">
+                    </div>
+                    <div class="field">
+                        <input class="form-control" type="password" name="password" placeholder="密码">
+                    </div>
+                </fieldset>
+                <button type="submit" class="Button Button--primary" loading-text="正在登录...">
+                    登录
+                </button>
+                <?php if($conf['user_find_pw_on']) { ?>
+                <a class="forgot" href="user-findpw.htm">忘记密码？</a>
+                <?php } ?>
+            </form>
+        </div>
+        <div class="info">
+            <p>
+                您可以直接使用第三方帐号登录
+                <span class="point">·</span>
+                <a href="http://flarum.cc/plugin/xn_qq_login/qq_login.php?action=login">QQ登录 »</a>
+                <!-- <span class="point">·</span>
+                <a href="#">微信登录 »</a> -->
+            </p>
+        </div>
+    </div>
+</div>
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+
+$(function() {
+    var jform = $('#login_form');
+    var jaccount = jform.find('input[name="account"]').focus();
+    var jpassword = jform.find('input[name="password"]');
+    var jsubmit = jform.find('button[type="submit"]');
+    jform.off('submit').on('submit', function() {
+    //jsubmit.off('click').on('click', function() {
+        if(!jaccount.val()) {
+            jaccount.popover('请输入 Email').focus();
+            return false;
+        } else if(!jpassword.val()) {
+            jpassword.popover('请输入密码').focus();
+            return false;
+        }
+        
+        var postdata = "account="+jaccount.val()+"&password="+$.md5(jpassword.val());
+        jsubmit.button('loading');
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if(code == 0) {
+                jsubmit.button('登录成功');
+                //$.pdata('user', user);
+                $.pdata('myagreelist', message.myagreelist);
+                // 服务端已经设置了 cookie
+                //$.cookie('bbs_token', message.token);
+                setTimeout(function() {window.location='./';}, 1000);
+            } else if(code > 0) {
+                if(code == 1) jaccount.popover(message).focus();
+                if(code == 2) jpassword.popover(message).focus();
+                jsubmit.button('reset');
+            } else if(code < 0) {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+});
+</script>

@@ -1,0 +1,114 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+    
+<div class="container">
+    <div class="content" id="threadlist_panel">
+        <div class="content-header">
+            <div class="tw-header-inner">
+                <h2>
+                    <?php if($order == 'tid') { ?>最新主题<?php } ?>
+                    <?php if($order == 'lastpid') { ?>最新回复<?php } ?>
+                    <?php if($order == 'agrees') { ?>最多喜欢<?php } ?>
+                </h2>
+                <div class="right ButtonGroup" id="threadlist_orderby" style="margin-top: -6px;">
+                    <a class="Button <?php echo ($order == 'lastpid' ? 'active' : ''); ?>" href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-lastpid.htm" title="回帖时间" nofollow>回帖</a>
+                    <a class="Button <?php echo ($order == 'tid' ? 'active' : ''); ?>" href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-tid.htm" title="发帖时间" nofollow>新帖</a>
+                    <a class="Button <?php echo ($order == 'agrees' ? 'active' : ''); ?>" href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-agrees.htm" title="喜欢数" nofollow>精华</a>
+                </div>
+            </div>
+        </div>
+        <ol class="stream-items" id="threadlist">
+            <?php include "./pc/view/thread_list_body.inc.htm"; ?>
+        </ol>
+        <?php if(!empty($pages)) { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">
+                <?php echo $pages; ?>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">已加载全部数据</div>
+        </div>
+        <?php } ?>
+    </div>
+    <div class="dashboard">
+        
+        <?php include "./pc/view/login_box.htm"; ?>
+
+        <div class="text-list">
+            <div class="text-inner">
+                <div class="text-module-header">
+                    <h3><?php echo $forum['name']; ?>版块统计</h3>
+                </div>
+                <ul class="text-items text-items2">
+                    <li>主题：<strong class="text-muted"><?php echo $forum['threads']; ?></strong></li>
+                    <li>新回帖：<strong class="text-muted"><?php echo $forum['todayposts']; ?></strong></li>
+                    <li>新主题：<strong class="text-muted"><?php echo $forum['todaythreads']; ?></strong></li>
+                </ul>
+            </div>
+        </div>
+        <?php if($forum['modlist']) { ?>
+        <div class="text-list">
+            <div class="text-inner">
+                <div class="text-module-header">
+                    <h3>版主</h3>
+                </div>
+                <ul class="text-items text-items2">
+                    <?php foreach ($forum['modlist'] as $mod) { ?>
+                    <li><a href="user-<?php echo $mod['uid']; ?>.htm"><?php echo $mod['username']; ?></a></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+        <?php } ?>
+        <?php include "./pc/view/copyright.htm"; ?>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+<script>
+$(function() {
+    var jform = $('#login_form');
+    var jaccount = jform.find('input[name="account"]').focus();
+    var jpassword = jform.find('input[name="password"]');
+    var jsubmit = jform.find('button[type="submit"]');
+    jform.off('submit').on('submit', function() {
+    //jsubmit.off('click').on('click', function() {
+        if(!jaccount.val()) {
+            jaccount.popover('请输入 Email').focus();
+            return false;
+        } else if(!jpassword.val()) {
+            jpassword.popover('请输入密码').focus();
+            return false;
+        }
+        
+        var postdata = "account="+jaccount.val()+"&password="+$.md5(jpassword.val());
+        jsubmit.button('loading');
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if(code == 0) {
+                jsubmit.button('登录成功');
+                //$.pdata('user', user);
+                $.pdata('myagreelist', message.myagreelist);
+                // 服务端已经设置了 cookie
+                //$.cookie('bbs_token', message.token);
+                setTimeout(function() {window.location='./';}, 1000);
+            } else if(code > 0) {
+                if(code == 1) jaccount.popover(message).focus();
+                if(code == 2) jpassword.popover(message).focus();
+                jsubmit.button('reset');
+            } else if(code < 0) {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+});
+</script>
+<script>
+render_threadlist();
+thread_list_script();
+forumlist_active(fid);
+document_scroll_top();
+</script>

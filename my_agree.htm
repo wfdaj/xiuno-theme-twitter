@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="content">
+        <div class="content-header">
+            <div class="tw-header-inner">
+                <h2>我喜欢的</h2>
+            </div>
+        </div>
+        <ol class="user-items">
+            <?php foreach ($threadlist as $thread) { ?>
+            <li class="user-item">
+                <div class="stream-content">
+                    <p class="item-message">
+                        <a class="f15" href="<?php echo $thread['url']; ?>"><?php echo $thread['subject']; ?></a>
+                    </p>
+                    <div class="stream-item-footer">
+                        <a href="<?php echo $thread['user_url']; ?>"><?php echo $thread['username']; ?></a>
+                        <span class="point">•</span>
+                        <?php if(!$fid) { ?>
+                        <a href="forum-<?php echo $thread['fid']; ?>.htm"><?php echo $thread['forumname']; ?></a>
+                        <?php } ?>
+                        <span class="icon-trash" title="收藏于 <?php echo $thread['agree_create_date_fmt']; ?>">
+                            <i class="fa fa-heart"></i> <?php echo $thread['agree_create_date_fmt']; ?>
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <?php } ?>
+        </ol>
+        <?php if(!empty($pages)) { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">
+                <?php echo $pages; ?>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">已加载全部数据</div>
+        </div>
+        <?php } ?>
+    </div>
+    <div class="dashboard">
+
+        <?php include "./pc/view/my_header.inc.htm"; ?>
+
+        <?php include "./pc/view/copyright.htm"; ?>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+<?php include "./pc/view/my_footer.inc.htm"; ?>
+
+<script>
+$('#my_profile_menu').find('a').eq(3).class_active();
+</script>

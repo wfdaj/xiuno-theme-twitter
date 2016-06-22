@@ -1,0 +1,69 @@
+<?php if(empty($gid)) { ?>
+
+<div class="mini-profile">
+    <div class="profile-summary">
+        <div class="profile-content">
+            <img src="<?php echo $user['avatar_url']; ?>">
+            <b>游客</b>
+            <small>登录后才能发帖哦~</small>
+        </div>
+    </div>
+    <div class="profile-bottom">
+        <div class="user-intro">
+            <div class="signin-wrapper2">
+                <form class="signin" method="POST" id="login_form" action="user-login.htm">
+                    <fieldset>
+                        <div class="field">
+                            <input class="form-control" type="text" name="account" placeholder="邮件地址或昵称">
+                        </div>
+                        <div class="field">
+                            <input class="form-control" type="password" name="password" placeholder="密码">
+                        </div>
+                    </fieldset>
+                    <div class="clearfix">
+                        <button type="submit" class="Button Button--primary" loading-text="正在登录...">
+                            登录
+                        </button>
+                        <?php if($conf['user_find_pw_on']) { ?>
+                        <a class="forgot f14" href="user-findpw.htm">忘记密码？</a>
+                        <?php } ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php } else { ?>
+
+<div class="mini-profile">
+    <div class="profile-summary">
+        <a href="my.htm">
+            <div class="profile-content">
+                <img src="<?php echo $user['avatar_url']; ?>">
+                <b><?php echo $user['username']; ?></b>
+                <small>第 <em><?php echo $user['uid']; ?></em> 位会员</small>
+            </div>
+        </a>
+    </div>
+    <div class="profile-bottom">
+        <div class="user-intro">
+            签名处，预留~
+        </div>
+        <div class="profile-bottom">
+            <a href="my.htm" class="notify-count">
+                <i class="fa fa-tachometer"></i>设置
+            </a>
+            <?php if($gid == 1) { ?>
+            <a href="admin/" class="favorite-count">
+                <i class="fa fa-cog"></i>管理
+            </a>
+            <?php } ?>
+            <a href="user-logout.htm" class="balance-count">
+                <i class="fa fa-power-off"></i>退出
+            </a>
+        </div>
+    </div>
+</div>
+
+<?php } ?>

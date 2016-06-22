@@ -1,0 +1,15 @@
+<div class="bar-nav" id="user_menu">
+    <ul class="nav-links">
+        <li>
+            <a class="first-child" href="user-<?php echo $_uid; ?>.htm" nofollow>个人资料</a>
+        </li>
+        <?php if($_user['uid'] != 0) { ?>
+        <li>
+            <a href="user-thread-<?php echo $_uid; ?>.htm" nofollow>他的发帖</a>
+        </li>
+        <li>
+            <a class="last-child" href="user-agree-<?php echo $_uid; ?>.htm" nofollow>他喜欢的</a>
+        </li>
+        <?php } ?>
+    </ul>
+</div>

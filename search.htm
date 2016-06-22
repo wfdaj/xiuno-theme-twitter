@@ -1,0 +1,60 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+<div class="container">
+    <div class="content" id="threadlist_panel">
+        <div class="content-header">
+            <div class="tw-header-inner">
+                <h2>
+                    搜索 <span class="kword"><?php echo $keyword; ?></span> 结果（<?php echo count($threadlist); ?>条）
+                </h2>
+            </div>
+        </div>
+        <?php if(empty($threadlist)) { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">抱歉！什么都没找到 -_-"</div>
+        </div>
+        <?php } else { ?>
+        <ol class="stream-items" id="threadlist">
+            <?php include "./pc/view/thread_list_body.inc.htm"; ?>
+        </ol>
+        <?php } ?>
+
+        <?php if(!empty($pages)) { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">
+                <?php echo $pages; ?>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">已加载全部结果</div>
+        </div>
+        <?php } ?>
+    </div>
+    <div class="dashboard">
+
+        <?php include "./pc/view/login_box.htm"; ?>
+        
+        <div class="text-list" id="search-history">
+            <div class="text-inner">
+                <div class="text-module-header">
+                    <h3>搜索记录</h3>
+                </div>
+                <ul class="text-items">
+                    <li>制作中...</li>
+                </ul>
+            </div>
+        </div>
+        <?php include "./pc/view/copyright.htm"; ?>
+    </div>
+    
+    <div class="clear"></div>
+</div>
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+render_forumlist();
+render_threadlist();
+thread_list_script();
+forumlist_active(fid);
+document_scroll_top();
+</script>

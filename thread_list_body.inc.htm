@@ -1,0 +1,77 @@
+
+<?php if(is_array($threadlist)) { foreach($threadlist as $_thread) { ?>
+
+<li class="stream-item">
+    <div class="stream-content thread <?php echo $_thread['thread_class']; ?> <?php echo $_thread['top_class']; ?>" href="<?php echo $_thread['url']; ?>" tid="<?php echo $_thread['tid']; ?>" last_date="<?php echo $_thread['last_date']; ?>">
+        <a href="<?php echo $_thread['user_url']; ?>" class="item-user">
+            <img class="item-avatar lazyload" data-src="<?php echo $_thread['user_avatar_url']; ?>" width="48px" height="48px" alt="<?php echo $_thread['username']; ?>">
+            <strong class="item-nickname">
+                <?php echo $_thread['username']; ?>
+            </strong>
+        </a>
+        <small class="time" title="发帖时间">
+            <span class="point">·</span>
+            <?php echo $_thread['create_date_fmt']; ?>
+        </small>
+
+        <?php if($_thread['files'] > 0) { ?>
+        <span class="point">·</span>
+        <i class="fa fa-thumb-tack f14 text-muted" title="置顶帖"></i>
+        <?php } ?>
+
+        <?php if(!$fid) { ?>
+        <div class="right-text">
+            <a href="forum-<?php echo $_thread['fid']; ?>.htm"><?php echo $_thread['forumname']; ?></a>
+        </div>
+        <?php } ?>
+
+        <p class="item-message">
+            <?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
+            <input type="checkbox" name="tid" value="<?php echo $_thread['tid']; ?>">
+            <?php } ?>
+            <?php echo $_thread['subject']; ?>
+            <?php if($_thread['top'] > 0) { ?>
+            <img class="icon" src="pc/view/img/icon-zd.png" alt="置顶">
+            <?php } ?>
+        </p>
+<?php
+$post = post_read($_thread['firstpid']);
+$content =($post['message']);
+$message = strip_tags($content);
+$jianjie = mb_substr($message,0,80,'utf-8');
+$pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
+preg_match_all($pattern,$content,$match);
+$imgs=array();
+for($i=0;$i<1;$i++){
+if(!empty($match[0][$i])){
+$imgs[$i]=$match[1][$i];
+}
+}
+?>
+        <?php if($_thread['images'] > 0) { ?>
+        <div class="item-picture">
+            <?php foreach($imgs as $pic) { ?>
+            <img class="lazyload" data-src="<?php echo $pic ?>">
+            <?php } ?>
+        </div>
+        <?php } ?>
+        <div class="post-actions">
+            <a href="<?php echo $_thread['url']; ?><?php echo (!empty($keyword) ? '?keyword='.$keyword : ''); ?>" title="<?php echo $_thread['posts']; ?> 回复">
+                <span class="web-icon icon-reply"></span>
+                <span class="replies"><?php echo $_thread['posts']; ?></span>
+            </a>
+            <span class="like" title="<?php echo $_thread['agrees']; ?> 喜欢">
+                <i class="fa fa-heart" title="喜欢"></i>
+                <span class="likes"><?php echo $_thread['agrees']; ?></span>
+            </span>
+            <?php if($_thread['posts'] > 0) { ?>
+            <div class="post-actions-right" title="回复于 <?php echo $_thread['last_date_fmt']; ?>">
+                <i class="fa fa-reply"></i>
+                <?php echo $_thread['lastusername']; ?> <?php echo $_thread['last_date_fmt']; ?>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</li>
+
+<?php } } ?>

@@ -1,0 +1,32 @@
+
+<?php foreach($postlist as $_post) { ?>
+
+<li class="reply-item" pid="<?php echo $_post['pid']; ?>">
+    <div class="reply-content">
+        <a href="<?php echo $_post['user_url']; ?>" class="item-user">
+            <img class="item-avatar lazyload" data-src="<?php echo $_post['user_avatar_url']; ?>" alt="<?php echo $_post['username']; ?>"  width="48px" height="48px">
+            <strong class="item-nickname"><?php echo $_post['username']; ?></strong>
+        </a>
+        <small class="time">
+            <span class="point" title="回复时间">·</span>
+            <?php echo $_post['create_date_fmt']; ?>
+        </small>
+        <div class="right-text">
+            <span class="floor"><?php echo $_post['floor']; ?></span>
+        </div>
+        <div class="item-message post" pid="<?php echo $_post['pid']; ?>">
+            <? if(!$ajax)$_post['message'] = Typembedvideo($_post['message']); ?><?php echo $_post['message']; ?>
+        </div>
+        <div class="post-actions clearfix">
+            <span class="left web-icon icon-reply" title="回复"></span>
+            <?php if($allowdelete || $_post['allowdelete']) { ?>
+            <a class="delete right f16 ml15" href="post-delete-<?php echo $_post['pid']; ?>.htm" title="删除"><i class="fa fa-trash-o"></i></a>
+        　  <?php } ?>
+            <?php if($allowupdate || $_post['allowupdate']) { ?>
+            <a class="right f16" href="post-update-<?php echo $_post['pid']; ?>.htm" title="编辑"><i class="fa fa-edit"></i></a>
+            <?php } ?>
+        </div>
+    </div>
+</li>
+
+<?php } ?>

@@ -1,0 +1,17 @@
+<div class="bar-nav">
+    <ul class="nav-links" id="forumlist">
+        <li fid="0">
+            <a href="./" class="first-child">
+                首页 <i class="newthreads" fid="0">0</i>
+            </a>
+        </li>
+        <?php if(is_array($forumlist_show)) { foreach($forumlist_show as &$f) { ?>
+        <li fid="<?php echo $f['fid']; ?>">
+            <a href="forum-<?php echo $f['fid']; ?>.htm">
+                <?php echo $f['name']; ?>
+                <i class="newthreads" fid="<?php echo $f['fid']; ?>">0</i>
+            </a>
+        </li>
+        <?php } } ?>
+    </ul>
+</div>

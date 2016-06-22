@@ -1,0 +1,90 @@
+<?php
+    !isset($header['keywords']) AND $header['keywords'] = '';
+    !isset($header['description']) AND $header['description'] = '';
+    !isset($header['title']) AND $header['title'] = '';
+    !isset($keyword) AND $keyword = '';
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <?php if(APP_PATH != './') { ?> <base href="<?php echo APP_PATH; ?>"> <?php } ?>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="author" content="XiunoBBS 3.0">
+    <meta name="keywords" content="<?php echo $header['keywords']; ?>">
+    <meta name="description" content="<?php echo $header['description']; ?>">
+    <meta name="renderer" content="webkit">
+    <meta name="baidu-site-verification" content="WPwLXn7akV" />
+    <title><?php echo $header['title']; ?></title>
+    <link rel="shortcut icon" href="static/favicon.ico">
+    <link rel="icon" sizes="32x32" href="static/favicon.ico">
+    <link rel="Bookmark" href="static/favicon.ico">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="pc/view/css/twitter.css">
+    <link rel="stylesheet" href="pc/view/css/xiunoui.css">
+    <!--百度统计代码-->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "//hm.baidu.com/hm.js?201cabb74e3a93dd1bfbbe9ef6d2600d";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <script>var debug = <?php echo DEBUG; ?>;</script>
+</head>
+
+<body>
+
+<div class="tw-header" id="header">
+    <div class="top-nav dropdown">
+        <ul class="left-nav" id="forumlist">
+            <li>
+                <a class="logo" title="小众程序" href="./">
+                    <img src="pc/view/img/logo.png" alt="logo.png">
+                </a>
+            </li>
+            <li class="ml15" fid="0">
+                <a class="logo" title="首页" href="./">首页 <i class="newthreads" fid="0">0</i></a>
+            </li>
+            <?php if(is_array($forumlist_show)) { foreach($forumlist_show as &$f) { ?>
+            <li fid="<?php echo $f['fid']; ?>"><a href="forum-<?php echo $f['fid']; ?>.htm"><?php echo $f['name']; ?> <i class="newthreads" fid="<?php echo $f['fid']; ?>">0</i></a></li>
+            <?php } } ?>
+        </ul>
+        <div class="right-nav" id="user">
+            <div class="search">
+                <form action="search.htm" method="GET" id="srch_form">
+                    <input type="text" class="search-input" name="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>">
+                    <span class="search-icon">
+                        <button class="web-icon nav-search" type="submit" tabindex="-1">
+                        </button>
+                    </span>
+                </form>
+            </div>
+            <?php if(empty($gid)) { ?>
+            <div class="signin">
+                <a href="http://flarum.cc/plugin/xn_qq_login/qq_login.php?action=login" title="使用QQ账号登录"><i class="fa fa-qq f16"></i></a>&nbsp;&nbsp;
+                <a href="user-login.htm">登录</a>&nbsp;&nbsp;
+                <a href="user-create.htm">注册</a>
+            </div>
+            <?php } else { ?>
+            <div class="settings dropdown">
+                <a class="dropdown-toggle" id="settings" title="设置" href="javascript:;">
+                    <img src="<?php echo $user['avatar_url']; ?>" class="nav-settings" width="32px" height="32">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="my.htm">设置</a></li>
+                    <li><a href="user-logout.htm">退出</a></li>
+                </ul>
+            </div>
+            <div class="write">
+                <a class="write-btn" title="发帖" href="thread-create<?php echo (empty($fid) ? '' : "-$fid"); ?>.htm">
+                    <i class="web-icon nav-write">
+                    </i>
+                </a>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>

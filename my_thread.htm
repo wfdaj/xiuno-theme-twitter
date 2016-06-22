@@ -1,0 +1,64 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="container">
+    <div class="content">
+        <div class="content-header">
+            <div class="tw-header-inner">
+                <h2>我的发帖</h2>
+            </div>
+        </div>
+        <ol class="user-items">
+            <?php foreach ($threadlist as $thread) { ?>
+            <li class="user-item">
+                <div class="stream-content">
+                    <p class="item-message">
+                        <a class="f16" href="<?php echo $thread['url']; ?>"><?php echo $thread['subject']; ?></a>
+                    </p>
+                    <div class="stream-item-footer">
+
+                        <?php if(!$fid) { ?>
+                        <a href="forum-<?php echo $thread['fid']; ?>.htm"><?php echo $thread['forumname']; ?></a>
+                        <?php } ?>
+
+                        <span class="point">•</span>
+                        <span title="发帖时间"><?php echo $thread['create_date_fmt']; ?></span>
+                        <span class="point">•</span>
+
+                        <?php if($thread['posts']) { ?>
+                        <a href="<?php echo $thread['url']; ?>"><?php echo $thread['posts']; ?> 回复</a>
+                        <?php } else { ?>
+                        暂无回复
+                        <?php } ?>
+                        
+                    </div>
+                </div>
+            </li>
+            <?php } ?>
+        </ol>
+        <?php if(!empty($pages)) { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">
+                <?php echo $pages; ?>
+            </div>
+        </div>
+        <?php } else { ?>
+        <div class="stream-footer">
+            <div class="stream-end-inner">已加载全部数据</div>
+        </div>
+        <?php } ?>
+    </div>
+    <div class="dashboard">
+
+        <?php include "./pc/view/my_header.inc.htm"; ?>
+
+        <?php include "./pc/view/copyright.htm"; ?>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+<?php include "./pc/view/my_footer.inc.htm"; ?>
+
+<script>
+$('#my_profile_menu').find('a').eq(2).class_active();
+</script>
