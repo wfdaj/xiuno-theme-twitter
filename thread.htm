@@ -20,7 +20,7 @@
                         <span class="icon-heart" title="喜欢">
                             <i class="icon agree fa fa-heart" tabindex="0" role="button"></i>
                             <i class="icon agreed fa fa-heart liked" title="取消喜欢" style="display: none;" tabindex="0" role="button"></i>
-                            <a href="agree-list-<?php echo $first['pid']; ?>.htm" class="ajax dialog nocache icon agrees <?php echo $thread['agrees_class']; ?>" dialog='{"modal":false,"position":4}' nofollow><span class="likes"><?php echo $first['agrees']; ?></span></a>
+                            <a href="javascript:;" class="ajax dialog nocache icon agrees <?php echo $thread['agrees_class']; ?>" nofollow><span class="likes" title="点击查看喜欢的人"> <?php echo $first['agrees']; ?></span></a>
                         </span>
                         <?php if($allowupdate || $first['allowupdate']) { ?>
                         <a class="right nocache f20 ml15" href="post-update-<?php echo $first['pid']; ?>.htm" title="编辑"><i class="fa fa-edit"></i></a>
@@ -29,6 +29,20 @@
                         <a class="right delete f20" href="post-delete-<?php echo $first['pid']; ?>.htm" title="删除"><i class="fa fa-trash-o"></i></a>
                     　  <?php } ?>
                     </div>
+<?php
+  $agreelist = post_agree_find_by_pid($first['pid'], 1, 20);
+?>
+<?php if($agreelist) { ?>
+<div class="topic-info">
+    <?php foreach ($agreelist as $agree) { ?>
+    <a href="user-<?php echo $agree['uid']; ?>.htm" target="_blank" nofollow>
+        <img class="lazyload" data-src="<?php echo $agree['avatar_url']; ?>" title="<?php echo $agree['username']; ?>" width="32" height="32">
+    </a>
+    <?php } ?>
+</div>
+<?php } else {?>
+<div class="topic-info">暂无人喜欢本帖</div>
+<?php } ?>
                 </div>
             </div>
         </div>
