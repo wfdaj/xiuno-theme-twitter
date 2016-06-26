@@ -13,7 +13,7 @@
                     </div>
                     <div class="topic-message thread_post" id="thread_post" pid="<?php echo $thread['firstpid']; ?>">
                         <h1 class="nospace subject breakall bold" pid="<?php echo $first['pid']; ?>"><?php echo $thread['subject']; ?></h1>
-                        <?php include './plugin/xn_Typembed/Typembed.php';$first['message'] = Typembedvideo($first['message']); ?><?php echo $first['message']; ?>
+                        <?php echo $first['message']; ?>
                     </div>
                     <div class="topic-actions">
                         <span class="web-icon icon-reply posts <?php echo $thread['posts_class']; ?>" id="posts" title="回复"> <?php echo $thread['posts']; ?></span>
@@ -156,8 +156,6 @@
 
         <?php } ?>
 
-        <?php include "./pc/view/copyright.htm"; ?>
-
         <div class="text-list fixed" style="width:290px;">
             <div class="text-inner">
                 <div class="text-module-header">
@@ -171,6 +169,8 @@
                 </ul>
             </div>
         </div>
+
+        <?php include "./pc/view/copyright.htm"; ?>
 
     </div>
     <div class="clear"></div>
