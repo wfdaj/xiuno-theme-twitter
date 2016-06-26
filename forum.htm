@@ -35,6 +35,22 @@
         
         <?php include "./pc/view/login_box.htm"; ?>
 
+        <?php if(forum_is_mod($fid, $gid, $uid)) { ?>
+        <div class="text-list fixed" style="width:290px;">
+            <div class="text-inner">
+                <div class="text-module-header">
+                    <h3>管理区</h3>
+                </div>
+                <div class="ButtonGroup">
+                    <button class="Button" id="mod_top">置顶</button>
+                    <button class="Button" id="mod_move">移动</button>
+                    <button class="Button" id="mod_delete">删除</button>
+                    <label class="Button">全选<input class="hidden" type="checkbox" name="checkall" id="threadlist_checkall" value=""></label>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+
         <div class="text-list">
             <div class="text-inner">
                 <div class="text-module-header">
@@ -62,6 +78,7 @@
         </div>
         <?php } ?>
         <?php include "./pc/view/copyright.htm"; ?>
+
     </div>
     <div class="clear"></div>
 </div>
